@@ -1,0 +1,14 @@
+{
+  "name": "gauntlet",
+  "owner": {
+    "name": "letsrevel"
+  },
+  "plugins": [
+    {
+      "name": "gauntlet",
+      "source": "./",
+      "description": "Implement, review, security and tech-debt loop"
+    }
+  ],
+  "description": "Gauntlet: implement, review, security and tech-debt loop for Claude Code"
+}
