@@ -10,6 +10,7 @@ An implement, review, security and tech-debt loop for [Claude Code](https://code
 | `/gauntlet:review` | The same review stage on its own: a branch, a PR number or a commit range, including work that wasn't built with `/gauntlet:implement` and other people's PRs. Report-only unless `--fix`; `--delta` reviews only what changed since the last reviewed head; `--external` verifies an external reviewer's PR comments, fixes or declines each with evidence, and logs them. |
 | `/gauntlet:vuln-scan` | Full or scoped security sweep: feature-slice hunters, dedup, one verifier per candidate, report outside the repo. |
 | `/gauntlet:tech-debt` | Full or scoped debt sweep with deterministic metrics you can trend, verified findings and suggested PR bundles. |
+| `/gauntlet:configure` | Guided setup: explores the repo (CI, build scripts, docs, git and PR history), proposes the three config files with every value marked found, default or open, asks only what it couldn't find, then checks that the gate commands resolve and the regions cover every source file. `--update` reports drift in an existing config. |
 | `/gauntlet:handoff` | Writes a session handoff (verified state, sources, decisions needed, next steps, a paste-ready opening prompt) outside the repo; `/gauntlet:handoff resume` picks up the latest one, re-checks the recorded state and presents pending decisions before acting. |
 | Review lanes | `sibling-path-reviewer` (a rule enforced on one entry point but bypassed by admin, bulk, tasks, webhooks…), `docs-truth-reviewer` (prose vs code, both directions), `test-strength-reviewer` (assertions that cannot fail), `security-hunter` and `debt-hunter` in diff-lane mode. |
 | `finding-verifier` | Tries to disprove each candidate. Decisions go by verdict, never by a score threshold: a confirmed low-severity finding is still fixed or filed. |
@@ -35,7 +36,7 @@ Pin a release with `letsrevel/gauntlet#v0.3.0`. Local development: `claude --plu
 
 ## Configure your repo
 
-Gauntlet works without config and asks for your gate commands once. To make it yours, copy the templates into your repo and commit them (they travel into worktrees):
+Gauntlet works without config and asks for your gate commands once. To make it yours, run `/gauntlet:configure` (or copy the templates from `templates/` by hand) and commit the result; the files travel into worktrees:
 
 | File | Purpose |
 |---|---|

@@ -11,7 +11,7 @@ Review one change the way `/gauntlet:implement` reviews its own work, without ha
 ## Ground rules
 
 - The repo's CLAUDE.md files and the user's memory win over this skill wherever they conflict.
-- Load the repo profile `.claude/review/profile.md`. In a worktree without it, read it from the main checkout: parent of `git rev-parse --path-format=absolute --git-common-dir`. No profile: ask the user once for the gate commands and proceed.
+- Load the repo profile `.claude/review/profile.md`. In a worktree without it, read it from the main checkout: parent of `git rev-parse --path-format=absolute --git-common-dir`. No profile: ask the user once for the gate commands and proceed; suggest `/gauntlet:configure`.
 - **Report-only by default.** Without `--fix` you change no code, push nothing, post nothing to the PR and file no issues; you offer those at the end.
 - You orchestrate; you don't review. If this session wrote the code under review, your own opinion of it stays out of the brief, the reviewer prompts and the verdicts.
 - Run state lives in `~/.claude/gauntlet/runs/<repo>/<branch>/` (brief.md, review.md), shared with `/gauntlet:implement`. Never inside the repo.

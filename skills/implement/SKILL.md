@@ -12,7 +12,7 @@ Ship one change from request to an open PR that has already survived a fresh-con
 
 - The repo's CLAUDE.md files and the user's memory win over this skill wherever they conflict.
 - Read [reference/done.md](reference/done.md) now and again at the start of every stage. It holds the definition of done and the caps; this file only routes.
-- Load the repo profile `.claude/review/profile.md` (gate, docs locations, security triggers, external reviewer, merge policy). If the current directory is a worktree without it, read it from the main checkout: parent of `git rev-parse --path-format=absolute --git-common-dir`. No profile: ask the user once for the gate commands and proceed; suggest copying `${CLAUDE_PLUGIN_ROOT}/templates/profile.md`.
+- Load the repo profile `.claude/review/profile.md` (gate, docs locations, security triggers, external reviewer, merge policy). If the current directory is a worktree without it, read it from the main checkout: parent of `git rev-parse --path-format=absolute --git-common-dir`. No profile: ask the user once for the gate commands and proceed; suggest `/gauntlet:configure`.
 - Model routing: Haiku for small mechanical tasks, Sonnet for medium ones, Opus orchestrates, plans and reviews. For a hard design question or a disputed MAJOR finding, consult the user's `/advisor` if configured; otherwise state the question and ask the user.
 - Linear by default. Dispatch subagents only for independent tasks, isolation from noisy output, or a fresh pair of eyes (review), never for "a smarter answer".
 - Run state lives in `~/.claude/gauntlet/runs/<repo>/<branch>/` (spec.md, plan.md, handoff.md, brief.md, review.md). Never inside the repo; never committed.
