@@ -9,6 +9,7 @@ An implement, review, security and tech-debt loop for [Claude Code](https://code
 | `/gauntlet:implement` | Issue or request → open, self-reviewed PR. Sizes the task (S: just do it; M: plan; L: spec interview, plan, fresh-session handoff), implements linearly or with delegated subagents, updates docs, runs your gate, reviews, opens the PR, handles your external reviewer. Never merges without your OK. |
 | `/gauntlet:vuln-scan` | Full or scoped security sweep: feature-slice hunters, dedup, one verifier per candidate, report outside the repo. |
 | `/gauntlet:tech-debt` | Full or scoped debt sweep with deterministic metrics you can trend, verified findings and suggested PR bundles. |
+| `/gauntlet:handoff` | Writes a session handoff (verified state, sources, decisions needed, next steps, a paste-ready opening prompt) outside the repo; `/gauntlet:handoff resume` picks up the latest one, re-checks the recorded state and presents pending decisions before acting. |
 | Review lanes | `sibling-path-reviewer` (a rule enforced on one entry point but bypassed by admin, bulk, tasks, webhooks…), `docs-truth-reviewer` (prose vs code, both directions), `test-strength-reviewer` (assertions that cannot fail), `security-hunter` and `debt-hunter` in diff-lane mode. |
 | `finding-verifier` | Tries to disprove each candidate. Decisions go by verdict, never by a score threshold: a confirmed low-severity finding is still fixed or filed. |
 
@@ -28,7 +29,7 @@ claude plugin marketplace add letsrevel/gauntlet
 claude plugin install gauntlet@gauntlet
 ```
 
-Pin a release with `letsrevel/gauntlet#v0.1.0`. Local development: `claude --plugin-dir ./gauntlet`.
+Pin a release with `letsrevel/gauntlet#v0.2.0`. Local development: `claude --plugin-dir ./gauntlet`.
 
 ## Configure your repo
 

@@ -71,6 +71,7 @@ fix_sketch: <if CONFIRMED>
 
 - Sweep reports: `~/.claude/gauntlet/reports/<repo>/<date>-<kind>.md`
 - `/implement` run state: `~/.claude/gauntlet/runs/<repo>/<branch>/` (spec, plan, handoff, brief, review)
+- Session handoffs: `~/.claude/gauntlet/handoffs/<repo>/<date>-<slug>.md`
 
 ## 5. Models
 
