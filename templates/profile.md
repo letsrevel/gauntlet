@@ -30,6 +30,7 @@ Parallel test runs: <how to isolate them, e.g. a unique DB name per run, or "non
 
 ## External reviewer and merge policy
 - External reviewer: <e.g. CodeRabbit, with limits; or none>
+- Reviewer login: <the account its PR comments come from, e.g. `coderabbitai`; used to fetch its findings>
 - Skip external review for: <e.g. internal/admin-only PRs>
 - Merge: <e.g. never without explicit approval; squash only; rebase, never merge main>
 

@@ -1,8 +1,8 @@
 {
   "name": "gauntlet",
   "displayName": "Gauntlet",
-  "description": "Implement, review, security and tech-debt loop for Claude Code: plan when needed, implement, update docs, gate, multi-lane fresh-context review with per-finding verification, PR. Plus full security and tech-debt sweeps.",
-  "version": "0.2.0",
+  "description": "Implement, review, security and tech-debt loop for Claude Code: plan when needed, implement, update docs, gate, multi-lane fresh-context review with per-finding verification, PR. Plus standalone review, full security and tech-debt sweeps, and guided repo setup.",
+  "version": "0.3.0",
   "author": { "name": "Biagio Distefano" },
   "homepage": "https://github.com/letsrevel/gauntlet",
   "repository": "https://github.com/letsrevel/gauntlet",

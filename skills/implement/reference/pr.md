@@ -23,9 +23,7 @@ Per the profile (e.g. an AI review bot). If the profile names none, skip this se
 
 - Skip it for the PR classes the profile exempts (e.g. internal-only tooling).
 - Wait for its review; respect any rate limit the profile states, and re-request at most once after batched fixes.
-- For every finding, including ones outside the diff range: verify against the code, then fix, or reply with the evidence for declining. Don't fix what you haven't verified; don't decline without a reason.
-- Batch fixes into one push → gate → delta review → one re-review request.
-- Record each finding in `review.md`: valid or not, and the lane that should have caught it.
+- Once it has posted, follow `${CLAUDE_PLUGIN_ROOT}/skills/review/reference/external.md`: fetch its findings (including ones outside the diff range), verify each, fix or reply with the evidence for declining, batch the fixes into one push, and log every finding to the escape ledger with the lane that should have caught it.
 
 ## Merging
 

@@ -12,7 +12,7 @@ Ship one change from request to an open PR that has already survived a fresh-con
 
 - The repo's CLAUDE.md files and the user's memory win over this skill wherever they conflict.
 - Read [reference/done.md](reference/done.md) now and again at the start of every stage. It holds the definition of done and the caps; this file only routes.
-- Load the repo profile `.claude/review/profile.md` (gate, docs locations, security triggers, external reviewer, merge policy). If the current directory is a worktree without it, read it from the main checkout: parent of `git rev-parse --path-format=absolute --git-common-dir`. No profile: ask the user once for the gate commands and proceed; suggest copying `${CLAUDE_PLUGIN_ROOT}/templates/profile.md`.
+- Load the repo profile `.claude/review/profile.md` (gate, docs locations, security triggers, external reviewer, merge policy). If the current directory is a worktree without it, read it from the main checkout: parent of `git rev-parse --path-format=absolute --git-common-dir`. No profile: ask the user once for the gate commands and proceed; suggest `/gauntlet:configure`.
 - Model routing: Haiku for small mechanical tasks, Sonnet for medium ones, Opus orchestrates, plans and reviews. For a hard design question or a disputed MAJOR finding, consult the user's `/advisor` if configured; otherwise state the question and ask the user.
 - Linear by default. Dispatch subagents only for independent tasks, isolation from noisy output, or a fresh pair of eyes (review), never for "a smarter answer".
 - Run state lives in `~/.claude/gauntlet/runs/<repo>/<branch>/` (spec.md, plan.md, handoff.md, brief.md, review.md). Never inside the repo; never committed.
@@ -35,9 +35,9 @@ Announce each stage in one line as you enter it. Stop and ask only where a stage
 
 **4. Gate.** Run the profile's gate. Red: fix and rerun. No review and no push until green.
 
-**5. Self-review.** Follow [reference/review.md](reference/review.md): freeze a brief, run the generalist and the lanes the router selects, verify every candidate, fix confirmed ones. At most 2 fix rounds; each reruns the gate and reviews only the fix commits.
+**5. Self-review.** Follow `${CLAUDE_PLUGIN_ROOT}/skills/review/reference/pipeline.md` in `fix` mode, `full` scope (the same pipeline `/gauntlet:review` runs standalone): freeze a brief, run the generalist and the lanes the router selects, verify every candidate, fix confirmed ones. At most 2 fix rounds; each reruns the gate and reviews only the fix commits.
 
-**6. PR.** Follow [reference/pr.md](reference/pr.md): one push, PR body with lanes run and assumptions, external review per the profile, verify-then-fix-or-decline its findings. Never merge or enable auto-merge without the user's explicit OK for that PR.
+**6. PR.** Follow [reference/pr.md](reference/pr.md): one push, PR body with lanes run and assumptions, external review per the profile, its findings verified, fixed or declined, and logged to the escape ledger. Never merge or enable auto-merge without the user's explicit OK for that PR.
 
 **7. Report.** PR link, what changed, docs touched, lanes run and findings fixed or filed, anything left for the user. File every deferred follow-up as an issue; never leave it only in chat.
 
