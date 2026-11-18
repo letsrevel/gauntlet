@@ -7,6 +7,7 @@ An implement, review, security and tech-debt loop for [Claude Code](https://code
 | Piece | What it does |
 |---|---|
 | `/gauntlet:implement` | Issue or request → open, self-reviewed PR. Sizes the task (S: just do it; M: plan; L: spec interview, plan, fresh-session handoff), implements linearly or with delegated subagents, updates docs, runs your gate, reviews, opens the PR, handles your external reviewer. Never merges without your OK. |
+| `/gauntlet:review` | The same review stage on its own: a branch, a PR number or a commit range, including work that wasn't built with `/gauntlet:implement` and other people's PRs. Report-only unless `--fix`; `--delta` reviews only what changed since the last reviewed head; `--external` verifies an external reviewer's PR comments, fixes or declines each with evidence, and logs them. |
 | `/gauntlet:vuln-scan` | Full or scoped security sweep: feature-slice hunters, dedup, one verifier per candidate, report outside the repo. |
 | `/gauntlet:tech-debt` | Full or scoped debt sweep with deterministic metrics you can trend, verified findings and suggested PR bundles. |
 | `/gauntlet:handoff` | Writes a session handoff (verified state, sources, decisions needed, next steps, a paste-ready opening prompt) outside the repo; `/gauntlet:handoff resume` picks up the latest one, re-checks the recorded state and presents pending decisions before acting. |
@@ -19,8 +20,9 @@ An implement, review, security and tech-debt loop for [Claude Code](https://code
 - **Lanes target what generalist review misses.** Measured on one production codebase (180 merged PRs): a forked generalist review caught ~80% of what it plus an external AI reviewer found. The remaining ~20% was docs drift, sibling entry points, unfailable tests and unreviewed fix commits.
 - **Gate before review.** Lint, types, formatting and targeted tests are deterministic; reviewers don't spend tokens on them.
 - **Verify, don't threshold.** Numeric confidence cut-offs drop real findings. One adversarial verifier per candidate, verdict-based filtering.
+- **Measure what escapes.** Every valid finding your external reviewer makes on a self-reviewed PR is logged with the lane that should have caught it (`scripts/ledger.py stats`). A lane that keeps showing up gets its prompt tuned; a verifier that rejects nothing is a rubber stamp.
 - **Linear by default.** Subagents only for independent tasks or a fresh pair of eyes. Haiku/Sonnet for mechanical work, Opus to orchestrate and review.
-- **Nothing lands in your repo by accident.** Reports and run state live under `~/.claude/gauntlet/`.
+- **Nothing lands in your repo by accident.** Reports, run state and the escape ledger live under `~/.claude/gauntlet/`.
 
 ## Install
 
@@ -29,7 +31,7 @@ claude plugin marketplace add letsrevel/gauntlet
 claude plugin install gauntlet@gauntlet
 ```
 
-Pin a release with `letsrevel/gauntlet#v0.2.0`. Local development: `claude --plugin-dir ./gauntlet`.
+Pin a release with `letsrevel/gauntlet#v0.3.0`. Local development: `claude --plugin-dir ./gauntlet`.
 
 ## Configure your repo
 

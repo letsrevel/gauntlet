@@ -35,9 +35,9 @@ Announce each stage in one line as you enter it. Stop and ask only where a stage
 
 **4. Gate.** Run the profile's gate. Red: fix and rerun. No review and no push until green.
 
-**5. Self-review.** Follow [reference/review.md](reference/review.md): freeze a brief, run the generalist and the lanes the router selects, verify every candidate, fix confirmed ones. At most 2 fix rounds; each reruns the gate and reviews only the fix commits.
+**5. Self-review.** Follow `${CLAUDE_PLUGIN_ROOT}/skills/review/reference/pipeline.md` in `fix` mode, `full` scope (the same pipeline `/gauntlet:review` runs standalone): freeze a brief, run the generalist and the lanes the router selects, verify every candidate, fix confirmed ones. At most 2 fix rounds; each reruns the gate and reviews only the fix commits.
 
-**6. PR.** Follow [reference/pr.md](reference/pr.md): one push, PR body with lanes run and assumptions, external review per the profile, verify-then-fix-or-decline its findings. Never merge or enable auto-merge without the user's explicit OK for that PR.
+**6. PR.** Follow [reference/pr.md](reference/pr.md): one push, PR body with lanes run and assumptions, external review per the profile, its findings verified, fixed or declined, and logged to the escape ledger. Never merge or enable auto-merge without the user's explicit OK for that PR.
 
 **7. Report.** PR link, what changed, docs touched, lanes run and findings fixed or filed, anything left for the user. File every deferred follow-up as an issue; never leave it only in chat.
 
