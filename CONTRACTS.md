@@ -79,13 +79,13 @@ fix_sketch: <if CONFIRMED>
 
 ## 5. Escape ledger (`scripts/ledger.py`)
 
-Append-only JSONL, one file per repo, written only through `ledger.py add` (which validates rows, stamps `date` and `repo`, and skips duplicates). Three row kinds:
+Append-only JSONL, one file per repo, written only through `ledger.py add` (which validates fields, types and enums, stamps `date`, `at` (UTC) and `repo`, skips duplicates, and holds a file lock so concurrent sessions can't double-log). Three row kinds:
 
 | `kind` | One per | Fields | Duplicate key |
 |---|---|---|---|
 | `run` | self-review round | `branch`, `head`, `round` (0 = first), `scope` (full, delta), `lanes` (list), `candidates`, `confirmed`, `rejected`, `needs_human` | branch + head + round |
-| `pr` | PR whose external review was triaged | `pr`, `branch`, `self_reviewed` (a `run` preceded the first external review), `changed_lines`, `external_reviews` | none; the latest row wins |
-| `finding` | external-reviewer finding | `pr`, `finding_id` (review comment id), `round` (which external review), `title`, `path`, `line`, `severity`, `class` (bug, docs, tests, i18n, security, debt, ci, style), `verdict`, `outcome` (fixed, declined, filed, open), `lane` | pr + finding_id |
+| `pr` | PR whose external review was triaged | `pr`, `branch`, `self_reviewed` (a `run` row for the branch is stamped before the first external review; `ledger.py fetch` computes it), `changed_lines`, `external_reviews` | none; the latest row wins |
+| `finding` | external-reviewer finding | `pr`, `finding_id` (the thread's first comment id, or `body-<review_id>-<n>` for the nth finding in a review body), `round` (which external review), `title`, optional `path` and `line`, `severity`, `class` (bug, docs, tests, i18n, security, debt, ci, style), `verdict`, `outcome` (fixed, declined, filed, open), `lane` | pr + finding_id; a row logged as `open` may be settled by one later row, and reports count the latest |
 
 `lane` on a finding is the lane that should have caught it: gate, generalist, sibling-path, docs-truth, test-strength, security, debt, i18n or none. The **escape metric** is CONFIRMED findings on PRs with `self_reviewed: true`, per PR and per kLOC; `ledger.py stats` prints it with the breakdown by lane and the verifier kill rate (rejected ÷ adjudicated across `run` rows).
 

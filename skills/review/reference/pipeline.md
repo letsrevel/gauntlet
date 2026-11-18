@@ -8,8 +8,8 @@ Why these lanes: on one production codebase (180 merged PRs, 223 external-review
 
 Reviewers never spend effort on lint, types or formatting.
 
-- Target is the checked-out branch: run the profile's gate. Red in `fix` mode: fix and rerun. Red in `report` mode: report the failure and ask whether to review anyway.
-- Target lives in a worktree (someone else's PR, an arbitrary range): don't run the gate there; read CI instead (`gh pr checks <N>`). Red or missing: say so and ask whether to review anyway.
+- Target is the checked-out branch: run the profile's gate, unless the caller already ran it green on this exact head with a clean tree (`/gauntlet:implement` stage 4 did). Red in `fix` mode: fix and rerun. Red in `report` mode: report the failure and ask whether to review anyway.
+- Target lives in a worktree (someone else's PR, an arbitrary range): don't run the gate there; read CI instead (`gh pr checks <N>`). Red, missing, or no PR to read checks from: say so and ask whether to review anyway.
 
 ## 2. Freeze the brief
 
@@ -56,17 +56,19 @@ Collect candidates; merge duplicates (same root cause; keep all locations and ev
 | CONFIRMED | fix, whatever the severity | report with the verifier's reasoning and fix sketch |
 | REJECTED | drop; one-line reason in `review.md` | same, and list the one-liners in the report |
 | NEEDS-HUMAN | ask the user (consult the advisor first for a disputed MAJOR, if available) | report under "needs a decision" |
-| `in_diff: no` (pre-existing) | file an issue rather than fix, except security, which is fixed or filed privately | report separately; offer to file |
+| CONFIRMED, pre-existing | file an issue rather than fix, except security, which is fixed or filed privately | report separately; offer to file |
+
+Pre-existing means the defect behaves the same at base, which the verifier states in its reasoning. `in_diff` is only where the finding points: a changed caller that breaks an unchanged helper is `in_diff: no` and still introduced by this change, so it is fixed here.
 
 ## 5. Fix rounds (`fix` mode only, max 2)
 
 Fix confirmed findings with tests. Then: gate → delta-scope review of only the fix commits → verify. When a finding is a pattern, grep for siblings and fix or file them before closing it.
 
-Stop when a round yields no confirmed MAJOR or security finding, or after round 2 (then ask).
+Stop when a round's delta review confirms nothing. After round 2 stop regardless: list what is still open and ask.
 
 ## 6. Record
 
-Append to `review.md`, one section per round, headed with the round number and the reviewed head SHA (delta scope reads the last one as its base): lanes run, candidates per lane, verdict counts, fixes (commit SHAs), filed issues. It feeds the PR body.
+Append to `review.md`, one section per round, headed with the round number, the reviewed head SHA (delta scope reads the last one as its base) and the UTC time the round finished: lanes run, candidates per lane, verdict counts, fixes (commit SHAs), filed issues. It feeds the PR body.
 
 Then append one `run` row per round to the escape ledger (row contract in CONTRACTS.md § 5):
 

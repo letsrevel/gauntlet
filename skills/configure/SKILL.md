@@ -53,7 +53,7 @@ For by-design, list candidate entries with their reference and proposed boundary
 
 ## 3. Write
 
-- Write `.claude/review/profile.md`, `regions.md` and `by-design.md` in the templates' structure, without the template comments and without sections that have nothing to say.
+- Write the files in scope (the one named in the arguments, else `.claude/review/profile.md`, `regions.md` and `by-design.md`) in the templates' structure, without the template comments and without sections that have nothing to say.
 - Add `.claude/agent-memory/` to `.gitignore` if it isn't ignored already.
 - Existing files: show the diff you are about to apply, then apply it. Keep the user's wording where the meaning hasn't changed.
 - No customer names, secrets or exploit detail in any of the three files; they are committed.
@@ -61,7 +61,7 @@ For by-design, list candidate entries with their reference and proposed boundary
 ## 4. Verify
 
 - **Gate:** confirm every gate command resolves (the target, script or binary exists). Offer to run the gate once; don't run a long gate unasked.
-- **Regions:** run the coverage reconcile the sweeps use: `git ls-files`, drop test, fixture, locale, generated and vendored paths, subtract everything matched by a region's `globs`. Anything left: fix the globs and rerun until nothing is.
+- **Regions:** run the coverage reconcile the sweeps use: `git ls-files`, drop test, fixture, locale, generated and vendored paths, subtract everything matched by a region's `globs`. Anything left: fix the globs and rerun until nothing is. If `regions.md` is one you may not edit in this run (it existed and was neither named nor covered by `--update`), list the unowned files and say how to fix them (`/gauntlet:configure regions --update`) instead.
 - **References:** every path named in the profile and every by-design reference exists.
 
 ## 5. Report

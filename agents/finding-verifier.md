@@ -28,7 +28,8 @@ Read the repo's CLAUDE.md, the by-design file and every file the caller passed. 
    - docs-truth: confirm the prose contradicts the code at head; quote both.
    - sibling-path: confirm the sibling entry point exists, is reachable, and skips the rule.
    - generalist, external: confirm the described behaviour occurs at head, from an input or state you traced yourself. An external reviewer has no project context: check by-design and the brief's stated assumptions before confirming.
-6. Rate severity yourself (MAJOR / MINOR / TRIVIAL, mapping in the caller's contract); say why if you change it.
+6. With a brief: say in `reasoning` whether the defect is introduced by the change or behaves the same at base (pre-existing). Where the finding points does not decide this: a changed caller can break an unchanged callee.
+7. Rate severity yourself (MAJOR / MINOR / TRIVIAL, mapping in the caller's contract); say why if you change it.
 
 A real issue is CONFIRMED at whatever severity it has: confirm minor issues as MINOR or TRIVIAL instead of rejecting them. Use NEEDS-HUMAN when the answer depends on product intent you cannot read from code, docs or brief.
 

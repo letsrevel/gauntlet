@@ -26,15 +26,15 @@ Review one change the way `/gauntlet:implement` reviews its own work, without ha
 | `base..head` | as given | as given | current checkout if `head` is `HEAD`, else a worktree |
 
 - **Worktree:** reviewers read files, so the head must be on disk. `git fetch origin pull/<N>/head` (or the branch), then `git worktree add --detach ~/.claude/gauntlet/worktrees/<repo>/<slug> <sha>`. Remove it when the review ends. A worktree target is always report-only.
-- **Dirty tree:** reviewers would read uncommitted edits that the diff doesn't contain. Ask once whether to commit first or review the committed head as is.
-- **`--delta`:** base becomes the last reviewed head recorded in `review.md`. None recorded: say so and run a full review.
+- **Dirty tree:** reviewers would read uncommitted edits that the diff doesn't contain. Ask once whether to commit first or review the committed head; the committed head is then read from a worktree (so report-only), leaving the working tree untouched.
+- **`--delta`:** base becomes the last reviewed head recorded in `review.md`, provided it is an ancestor of the target head (`git merge-base --is-ancestor`). None recorded, or not an ancestor: say so and the scope becomes `full`.
 - **Intent:** linked issue, then spec or plan in the run directory, then PR body, then commit messages. If all are thin, ask the user for one sentence. Record which source you used in the brief.
 
 State the resolved target in one line (base, head, files, changed lines, mode, scope) before starting.
 
 ## 2. Run the pipeline
 
-Follow [reference/pipeline.md](reference/pipeline.md) with mode `fix` if `--fix` was given (and the target is the checked-out branch, not the default branch), else `report`; scope `delta` if `--delta`, else `full`.
+Follow [reference/pipeline.md](reference/pipeline.md) with the mode and scope resolved above, the same ones you stated in the target line. Mode is `fix` only if `--fix` was given and the target is the checked-out branch and not the default branch; otherwise `report`, and say why if `--fix` was asked for.
 
 ## 3. Report
 
@@ -54,4 +54,4 @@ In `fix` mode, report what `/gauntlet:implement` stage 7 would: fixes with commi
 
 ## `--external`: triage an external reviewer's findings
 
-Follow [reference/external.md](reference/external.md). Takes a PR number, or uses the current branch's PR. Combines with `--fix`.
+Follow [reference/external.md](reference/external.md). Takes a PR number, or uses the current branch's PR. It runs in the same effective mode as the pipeline: `--fix` applies only when the PR head is the checked-out branch; any other PR is triaged report-only.
