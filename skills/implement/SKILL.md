@@ -11,6 +11,7 @@ Ship one change from request to an open PR that has already survived a fresh-con
 ## Ground rules
 
 - The repo's CLAUDE.md files and the user's memory win over this skill wherever they conflict.
+- When you know a better approach than the one the user asked for, say so and recommend it before acting; do not carry out an instruction you believe is wrong without pushing back first.
 - Read [reference/done.md](reference/done.md) now and again at the start of every stage. It holds the definition of done and the caps; this file only routes.
 - Load the repo profile `.claude/review/profile.md` (gate, docs locations, security triggers, external reviewer, merge policy). If the current directory is a worktree without it, read it from the main checkout: parent of `git rev-parse --path-format=absolute --git-common-dir`. No profile: ask the user once for the gate commands and proceed; suggest `/gauntlet:configure`.
 - Model routing: Haiku for small mechanical tasks, Sonnet for medium ones, Opus orchestrates, plans and reviews. For a hard design question or a disputed MAJOR finding, consult the user's `/advisor` if configured; otherwise state the question and ask the user.
